@@ -1,11 +1,16 @@
 import requests
 from .auth import get_auth_header
 from .utils import handle_response, APIError
-from .constants import BASE_URLS
 
 class KnowBe4Client:
     def __init__(self, api_key, region='US'):
-        self.base_url = BASE_URLS.get(region, 'US')
+
+        # "EU": "https://eu.api.knowbe4.com"
+        # "CA": "https://ca.api.knowbe4.com"
+        # "UK": "https://uk.api.knowbe4.com"
+        # "DE": "https://de.api.knowbe4.com"
+        
+        self.base_url = BASE_URLS.get("https://us.api.knowbe4.com")
         self.headers = get_auth_header(api_key)
 
     def _get(self, endpoint, params=None):
