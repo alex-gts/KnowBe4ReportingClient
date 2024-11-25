@@ -1,6 +1,6 @@
 import requests
-from auth import get_auth_header
-from utils import handle_response, APIError
+from KnowBe4Client.auth import get_auth_header
+from KnowBe4Client.utils import handle_response, APIError
 
 BASE_URLS = {
     "US": "https://us.api.knowbe4.com",

@@ -1,6 +1,3 @@
-import requests
-
-
 class APIError(Exception):
     """Custom exception class for API errors."""
 
