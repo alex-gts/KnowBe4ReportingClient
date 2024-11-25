@@ -21,9 +21,7 @@ Example:
 from KnowBe4Client import KnowBe4Client
 
 api_key = "your_api_key_here"
-base_url = "https://us.api.knowbe4.com"  # Change based on your server location
-
-client = KnowBe4Client(api_key, base_url)
+region = "us"  # Change based on your server location
 
 # Get all users
 users = client.get_all_users()
@@ -33,7 +31,7 @@ print(users)
 user = client.get_specific_user(user_id=12345)
 print(user)
 
-client = KnowBe4Client(api_key, base_url)
+client = KnowBe4Client(api_key, region)
 
 # Example: Get Account and Subscription Data (Section: Get Account and Subscription Data)
 # No additional parameters required.
