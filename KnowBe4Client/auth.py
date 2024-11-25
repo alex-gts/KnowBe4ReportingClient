@@ -1,6 +1,3 @@
-# auth.py
-
-
 def get_auth_header(api_key):
     """
     Generates the authentication header for API requests.
