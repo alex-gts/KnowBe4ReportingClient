@@ -273,6 +273,46 @@ class KnowBe4Client:
         except Exception as e:
             print(f"Unexpected error: {e}")
 
+    def get_all_policies(self):
+        """
+        Retrieves a list of all Policies in the KnowBe4 account.
+
+        Returns:
+        JSON response containing a list of all policies.
+
+        Raises:
+        APIError: For API-specific errors.
+        Exception: For other unexpected errors.
+        """
+        try:
+            return self._get("/v1/training/policies")
+        except APIError as e:
+            print(f"Error getting all policies: {e.message}")
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+
+    def get_specific_policy(self, policy_id):
+        """
+        Retrieves a specific Policy from the KnowBe4 account.
+
+        Parameters:
+        policy_id (int): Identifier of the policy.
+
+        Returns:
+        JSON response containing data of the specified policy.
+
+        Raises:
+        APIError: For API-specific errors.
+        Exception: For other unexpected errors.
+        """
+        try:
+            endpoint = f"/v1/training/policies/{policy_id}"
+            return self._get(endpoint)
+        except APIError as e:
+            print(f"Error getting specific policy: {e.message}")
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+
     def get_all_training_campaigns(self):
         """
         Retrieves a list of all Training Campaigns in the KnowBe4 account.
