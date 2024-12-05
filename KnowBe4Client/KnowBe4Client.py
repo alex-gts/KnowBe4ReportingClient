@@ -1,6 +1,9 @@
 import requests
 from KnowBe4Client.auth import get_auth_header
-from KnowBe4Client.utils import handle_response, APIError
+from KnowBe4Client.utils import (
+    handle_response,
+    APIError,
+)
 
 BASE_URLS = {
     "US": "https://us.api.knowbe4.com",
@@ -20,19 +23,20 @@ class KnowBe4Client:
         response = requests.get(
             f"{self.base_url}{endpoint}", headers=self.headers, params=params
         )
+
         return handle_response(response)
 
-    def get_account_and_subscription_data(self):
+    def get_account_and_subscription_data(self, **params):
         try:
-            return self._get("/v1/account")
+            return self._get("/v1/account", params=params)
         except APIError as e:
             print(f"Error getting account data: {e.message}")
         except Exception as e:
             print(f"Unexpected error: {e}")
 
-    def get_user_risk_score_history(self, user_id, full=False):
+    def get_user_risk_score_history(self, user_id, full=False, **params):
         try:
-            params = {"full": "true"} if full else {}
+            params = {**params, "full": "true"} if full else {}
             return self._get(f"/v1/users/{user_id}/risk_score_history", params=params)
         except APIError as e:
             print(f"Error getting user risk score history: {e.message}")
@@ -47,56 +51,56 @@ class KnowBe4Client:
         except Exception as e:
             print(f"Unexpected error: {e}")
 
-    def get_specific_group(self, group_id):
+    def get_specific_group(self, group_id, **params):
         try:
-            return self._get(f"/v1/groups/{group_id}")
+            return self._get(f"/v1/groups/{group_id}", params=params)
         except APIError as e:
             print(f"Error getting specific group: {e.message}")
         except Exception as e:
             print(f"Unexpected error: {e}")
 
-    def get_group_risk_score_history(self, group_id, full=False):
+    def get_group_risk_score_history(self, group_id, full=False, **params):
         try:
-            params = {"full": "true"} if full else {}
+            params = {**params, "full": "true"} if full else {}
             return self._get(f"/v1/groups/{group_id}/risk_score_history", params=params)
         except APIError as e:
             print(f"Error getting group risk score history: {e.message}")
         except Exception as e:
             print(f"Unexpected error: {e}")
 
-    def get_specific_phishing_campaign(self, campaign_id):
+    def get_specific_phishing_campaign(self, campaign_id, **params):
         try:
-            return self._get(f"/v1/phishing/campaigns/{campaign_id}")
+            return self._get(f"/v1/phishing/campaigns/{campaign_id}", params=params)
         except APIError as e:
             print(f"Error getting specific phishing campaign: {e.message}")
         except Exception as e:
             print(f"Unexpected error: {e}")
 
-    def get_all_phishing_security_tests(self):
+    def get_all_phishing_security_tests(self, **params):
         try:
-            return self._get("/v1/phishing/security_tests")
+            return self._get("/v1/phishing/security_tests", params=params)
         except APIError as e:
             print(f"Error getting all phishing security tests: {e.message}")
         except Exception as e:
             print(f"Unexpected error: {e}")
 
-    def get_account_and_subscription_data(self):
+    def get_account_and_subscription_data(self, **params):
         try:
-            return self._get("/v1/account")
+            return self._get("/v1/account", params=params)
         except APIError as e:
             print(f"Error getting account data: {e.message}")
         except Exception as e:
             print(f"Unexpected error: {e}")
 
-    def get_specific_user(self, user_id):
+    def get_specific_user(self, user_id, **params):
         try:
-            return self._get(f"/v1/users/{user_id}")
+            return self._get(f"/v1/users/{user_id}", params=params)
         except APIError as e:
             print(f"Error getting specific user: {e.message}")
         except Exception as e:
             print(f"Unexpected error: {e}")
 
-    def get_users_in_group(self, group_id):
+    def get_users_in_group(self, group_id, **params):
         try:
             return self._get(f"/v1/groups/{group_id}/members")
         except APIError as e:
@@ -125,7 +129,7 @@ class KnowBe4Client:
         except Exception as e:
             print(f"Unexpected error: {e}")
 
-    def get_account_risk_score_history(self, full=False):
+    def get_account_risk_score_history(self, full=False, **params):
         """
         Retrieves the account's risk score history.
 
@@ -147,7 +151,7 @@ class KnowBe4Client:
         except Exception as e:
             print(f"Unexpected error: {e}")
 
-    def get_psts_from_specific_campaign(self, campaign_id):
+    def get_psts_from_specific_campaign(self, campaign_id, **params):
         """
         Retrieves all phishing security tests (PSTs) from a specific campaign.
 
@@ -162,13 +166,15 @@ class KnowBe4Client:
         Exception: For other unexpected errors.
         """
         try:
-            return self._get(f"/v1/phishing/campaigns/{campaign_id}/security_tests")
+            return self._get(
+                f"/v1/phishing/campaigns/{campaign_id}/security_tests", params=params
+            )
         except APIError as e:
             print(f"Error getting PSTs from specific campaign: {e.message}")
         except Exception as e:
             print(f"Unexpected error: {e}")
 
-    def get_specific_phishing_security_test(self, pst_id):
+    def get_specific_phishing_security_test(self, pst_id, **params):
         """
         Retrieves data for a specific phishing security test.
 
@@ -183,13 +189,13 @@ class KnowBe4Client:
         Exception: For other unexpected errors.
         """
         try:
-            return self._get(f"/v1/phishing/security_tests/{pst_id}")
+            return self._get(f"/v1/phishing/security_tests/{pst_id}", params=params)
         except APIError as e:
             print(f"Error getting specific phishing security test: {e.message}")
         except Exception as e:
             print(f"Unexpected error: {e}")
 
-    def get_all_recipient_results(self, pst_id):
+    def get_all_recipient_results(self, pst_id, **params):
         """
         Retrieves a list of all recipients of a specific phishing security test.
 
@@ -210,7 +216,7 @@ class KnowBe4Client:
         except Exception as e:
             print(f"Unexpected error: {e}")
 
-    def get_specific_recipient_results(self, pst_id, recipient_id):
+    def get_specific_recipient_results(self, pst_id, recipient_id, **params):
         """
         Retrieves details about a specific user's phishing security test results.
 
@@ -227,13 +233,13 @@ class KnowBe4Client:
         """
         try:
             endpoint = f"/v1/phishing/security_tests/{pst_id}/recipients/{recipient_id}"
-            return self._get(endpoint)
+            return self._get(endpoint, params=params)
         except APIError as e:
             print(f"Error getting specific recipient's results: {e.message}")
         except Exception as e:
             print(f"Unexpected error: {e}")
 
-    def get_all_store_purchases(self):
+    def get_all_store_purchases(self, **params):
         """
         Retrieves a list of all Store Purchases in the KnowBe4 account.
 
@@ -245,13 +251,13 @@ class KnowBe4Client:
         Exception: For other unexpected errors.
         """
         try:
-            return self._get("/v1/training/store_purchases")
+            return self._get("/v1/training/store_purchases", params=params)
         except APIError as e:
             print(f"Error getting all store purchases: {e.message}")
         except Exception as e:
             print(f"Unexpected error: {e}")
 
-    def get_specific_store_purchase(self, store_purchase_id):
+    def get_specific_store_purchase(self, store_purchase_id, **params):
         """
         Retrieves a specific Store Purchase from the KnowBe4 account.
 
@@ -267,13 +273,13 @@ class KnowBe4Client:
         """
         try:
             endpoint = f"/v1/training/store_purchases/{store_purchase_id}"
-            return self._get(endpoint)
+            return self._get(endpoint, params=params)
         except APIError as e:
             print(f"Error getting specific store purchase: {e.message}")
         except Exception as e:
             print(f"Unexpected error: {e}")
 
-    def get_all_policies(self):
+    def get_all_policies(self, **params):
         """
         Retrieves a list of all Policies in the KnowBe4 account.
 
@@ -285,13 +291,13 @@ class KnowBe4Client:
         Exception: For other unexpected errors.
         """
         try:
-            return self._get("/v1/training/policies")
+            return self._get("/v1/training/policies", params=params)
         except APIError as e:
             print(f"Error getting all policies: {e.message}")
         except Exception as e:
             print(f"Unexpected error: {e}")
 
-    def get_specific_policy(self, policy_id):
+    def get_specific_policy(self, policy_id, **params):
         """
         Retrieves a specific Policy from the KnowBe4 account.
 
@@ -307,13 +313,13 @@ class KnowBe4Client:
         """
         try:
             endpoint = f"/v1/training/policies/{policy_id}"
-            return self._get(endpoint)
+            return self._get(endpoint, params=params)
         except APIError as e:
             print(f"Error getting specific policy: {e.message}")
         except Exception as e:
             print(f"Unexpected error: {e}")
 
-    def get_all_training_campaigns(self):
+    def get_all_training_campaigns(self, **params):
         """
         Retrieves a list of all Training Campaigns in the KnowBe4 account.
 
@@ -325,13 +331,13 @@ class KnowBe4Client:
         Exception: For other unexpected errors.
         """
         try:
-            return self._get("/v1/training/campaigns")
+            return self._get("/v1/training/campaigns", params=params)
         except APIError as e:
             print(f"Error getting all training campaigns: {e.message}")
         except Exception as e:
             print(f"Unexpected error: {e}")
 
-    def get_specific_training_campaign(self, campaign_id):
+    def get_specific_training_campaign(self, campaign_id, **params):
         """
         Retrieves a specific Training Campaign from the KnowBe4 account.
 
@@ -347,7 +353,7 @@ class KnowBe4Client:
         """
         try:
             endpoint = f"/v1/training/campaigns/{campaign_id}"
-            return self._get(endpoint)
+            return self._get(endpoint, params=params)
         except APIError as e:
             print(f"Error getting specific training campaign: {e.message}")
         except Exception as e:
@@ -374,7 +380,7 @@ class KnowBe4Client:
         except Exception as e:
             print(f"Unexpected error: {e}")
 
-    def get_specific_training_enrollment(self, enrollment_id):
+    def get_specific_training_enrollment(self, enrollment_id, **params):
         """
         Retrieves a specific Training Enrollment from the KnowBe4 account.
 
@@ -390,7 +396,7 @@ class KnowBe4Client:
         """
         try:
             endpoint = f"/v1/training/enrollments/{enrollment_id}"
-            return self._get(endpoint)
+            return self._get(endpoint, params=params)
         except APIError as e:
             print(f"Error getting specific training enrollment: {e.message}")
         except Exception as e:
