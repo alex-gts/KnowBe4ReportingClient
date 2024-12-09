@@ -124,7 +124,7 @@ class KnowBe4Client:
 
     def get_users_in_group(self, group_id, **params):
         try:
-            return self._get(f"/v1/groups/{group_id}/members")
+            return self._get(f"/v1/groups/{group_id}/members", params=params)
         except APIError as e:
             print(f"Error getting users in group: {e.message}")
         except Exception as e:
@@ -232,7 +232,9 @@ class KnowBe4Client:
         Exception: For other unexpected errors.
         """
         try:
-            return self._get(f"/v1/phishing/security_tests/{pst_id}/recipients")
+            return self._get(
+                f"/v1/phishing/security_tests/{pst_id}/recipients", params=params
+            )
         except APIError as e:
             print(f"Error getting all recipient results: {e.message}")
         except Exception as e:
