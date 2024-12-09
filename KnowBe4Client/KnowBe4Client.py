@@ -1,4 +1,13 @@
+import logging
 import requests
+from tenacity import (
+    retry,
+    stop_after_attempt,
+    wait_exponential,
+    retry_if_exception_type,
+)
+
+
 from KnowBe4Client.auth import get_auth_header
 from KnowBe4Client.utils import (
     handle_response,
@@ -13,12 +22,25 @@ BASE_URLS = {
     "DE": "https://de.api.knowbe4.com",
 }
 
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("KnowBe4Client")
+
 
 class KnowBe4Client:
     def __init__(self, api_key, region="US"):
         self.base_url = BASE_URLS.get(region)
         self.headers = get_auth_header(api_key)
 
+    @retry(
+        stop=stop_after_attempt(6),
+        wait=wait_exponential(multiplier=1, min=2, max=32),
+        retry=retry_if_exception_type((requests.exceptions.RequestException, APIError)),
+        before_sleep=lambda retry_state: logger.warning(
+            f"Retrying ({retry_state.attempt_number}/{retry_state.retry_object.stop.max_attempt_number-1})..."
+        ),
+        reraise=True,
+    )
     def _get(self, endpoint, params=None):
         response = requests.get(
             f"{self.base_url}{endpoint}", headers=self.headers, params=params

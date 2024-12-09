@@ -34,7 +34,10 @@ def handle_response(response):
         )
     else:
         # Generic error for other status codes
-        raise APIError(response.status_code, f"Unexpected API error: {response.text}")
+        raise APIError(
+            response.status_code,
+            f"Unexpected API error {response.status_code} : {response.text}",
+        )
 
 
 # You can add other utility functions here as needed
